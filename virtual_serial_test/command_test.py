@@ -12,12 +12,12 @@ logging.basicConfig(
 # Constants
 ACK = b'\x06'
 NAK = b'\x15'
-TIMEOUT = 8  # seconds
+TIMEOUT = 0.2  # seconds
 
 # Open serial connection
 ser = serial.Serial(
-    #port='/tmp/ttyV0',
-    port='/dev/ttyUSB0',
+    port='/tmp/ttyV0',
+    #port='/dev/ttyUSB0',
     baudrate=9600,
     bytesize=serial.EIGHTBITS,
     parity=serial.PARITY_NONE,
