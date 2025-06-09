@@ -4,7 +4,7 @@ import logging
 
 # --- Setup Logging ---
 logging.basicConfig(
-    filename='serial_comm.log',
+    filename='serial_test.log',
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
@@ -63,6 +63,18 @@ def send_command(cmd):
     logging.info(f"Received response: {decoded_response}")
     return decoded_response if decoded_response else "ACK Received (no response data)"
 
+def send_command_2(cmd):
+    ser.flushInput() # Clear input buffer
+    ser.flushOutput() # Clear output buffer
+    command_bytes = cmd.encode() + ACK
+    ser.write(command_bytes)
+    logging.info(f"Sent: {cmd} + ACK")
+    try:
+        response = ser.readline().decode().strip()
+        return response
+    except serial.SerialTimeoutException:
+        return None
+
 
 # User input loop
 while True:
@@ -76,4 +88,5 @@ while True:
     except KeyboardInterrupt:
         print("\nExiting.")
         logging.info("Exited by user (KeyboardInterrupt).")
+        ser.close()
         break
